@@ -1,21 +1,18 @@
 // CardGridContainer.js
 import React, { Component } from 'react';
-
-const cardStyle = {
-  border: 'solid 2px #fff',
-  borderRadius: '3px',
-  background: '#000',
-  color: '#fff',
-  minHeight: 200,
-  padding: '10px'
-};
+import './CardGridContainer.css';
 
 class CardGridContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { status: 'unsolved'}
+  }
+
   render() {
     return (
       <div id="card-grid">
-        <div className="card" style={cardStyle}>
-          Ace of Spades
+        <div className="card">
+          Ace of Spades : { this.state.status }
         </div>
       </div>
     );
