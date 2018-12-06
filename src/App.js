@@ -7,15 +7,11 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          
-          <p>
+          <h1>
             Memory Game
-          </p>
-
-
-          <CardGridContainer />
-
+          </h1>
         </header>
+        <CardGridContainer />
       </div>
     );
   }

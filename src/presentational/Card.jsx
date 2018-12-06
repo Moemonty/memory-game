@@ -1,12 +1,13 @@
 // Card.js
-
 import React from 'react';
+import './Card.css';
 
 const Card = props => {
-  const { title } = props;
+
+  const { name, onCardFlip } = props;
   return (
-    <div className="card">
-      { title }
+    <div className="card" onClick={ onCardFlip }>
+      { name }
     </div>
   );
 };
