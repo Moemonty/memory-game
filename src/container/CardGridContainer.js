@@ -14,25 +14,53 @@ class CardGridContainer extends Component {
     }
   }
 
+  // removePair = () => {
+  //   this.state.firstCard
+  // }  
+
+  checkMatch = () => {
+    // debugger;
+
+    console.log(this.state.firstCard.dataset.name);
+    console.log(this.state.secondCard.dataset.name);
+
+    if (this.state.firstCard.dataset.name === this.state.secondCard.dataset.name) {
+      this.state.firstCard.setAttribute("disabled", "disabled");
+      this.state.secondCard.setAttribute("disabled", "disabled");
+      debugger;
+      return;
+    }
+  }
+
   // Public class fields syntax
   flipCard = event => {
-    console.log(event.currentTarget);
-    const name = event.currentTarget.dataset.name;
-    console.log(name, ' is the name of the card');
+    console.log(event.currentTarget, ' is the current card');
+    const card = event.currentTarget;
+    const name = card.dataset.name;
 
-    if (!this.state.cardFlipped) {
-      event.currentTarget.classList.add('flip');
-      this.setState({
-        cardFlipped: true,
-        firstCard: name
-      });
-      console.log(this.state);
-    } else {
-      console.log('a card has been flipped');
-      console.log(' find another card');
+    // if disabled, short circuit
+    if (card.attributes.disabled) {
+      console.log('dont check card');
+      return;
     }
 
-    console.log(this.state, ' is state');
+    event.currentTarget.classList.add('flip');
+
+    if (!this.state.cardFlipped) {
+      
+      this.setState({
+        cardFlipped: true,
+        firstCard: card
+      });
+      return;
+    }
+
+    this.setState({
+      secondCard: card,
+      cardFlipped: false
+    }, () => {
+      this.checkMatch();
+    });
   }
 
   render() {
