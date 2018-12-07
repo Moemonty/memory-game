@@ -6,7 +6,7 @@ const Card = props => {
 
   const { name, onCardFlip } = props;
   return (
-    <div className="card" onClick={ onCardFlip }>
+    <div className="card" onClick={ onCardFlip } data-name={ name }>
       <div className="card__front-face">
         { name }
       </div>

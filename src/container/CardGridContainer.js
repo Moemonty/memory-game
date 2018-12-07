@@ -8,6 +8,7 @@ class CardGridContainer extends Component {
     super(props);
     this.state = {
       status: 'unsolved',
+      cardFlipped: false,
       firstCard: null,
       secondCard: null
     }
@@ -16,16 +17,19 @@ class CardGridContainer extends Component {
   // Public class fields syntax
   flipCard = event => {
     console.log(event.currentTarget);
-    const name = event.target.innerText;
-    event.currentTarget.classList.add('flip');
+    const name = event.currentTarget.dataset.name;
+    console.log(name, ' is the name of the card');
 
-    if (this.state.firstCard === null) {
+    if (!this.state.cardFlipped) {
+      event.currentTarget.classList.add('flip');
       this.setState({
+        cardFlipped: true,
         firstCard: name
       });
-
+      console.log(this.state);
     } else {
-      console.log('card already set');
+      console.log('a card has been flipped');
+      console.log(' find another card');
     }
 
     console.log(this.state, ' is state');
