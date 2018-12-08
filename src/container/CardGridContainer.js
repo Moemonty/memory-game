@@ -19,6 +19,15 @@ class CardGridContainer extends Component {
     }
   }
 
+  resetBoard = () => {
+    this.setState({
+      cardFlipped: false,
+      lockBoard: false,
+      firstCard: null,
+      secondCard: null
+    });
+  }
+
   unflipCards = () => {
     this.setState({
       lockBoard: true
@@ -34,16 +43,20 @@ class CardGridContainer extends Component {
     }, 1500);
   }
 
-  checkMatch = () => {
+  disableCards = () => {
+    this.state.firstCard.setAttribute("disabled", "disabled");
+    this.state.secondCard.setAttribute("disabled", "disabled");
+  }
 
+  checkMatch = () => {
     console.log(this.state.firstCard.dataset.name);
     console.log(this.state.secondCard.dataset.name);
 
     // A MATCH
     if (this.state.firstCard.dataset.name === this.state.secondCard.dataset.name) {
-      this.state.firstCard.setAttribute("disabled", "disabled");
-      this.state.secondCard.setAttribute("disabled", "disabled");
-
+      console.log('match');
+      this.disableCards();
+      this.resetBoard();
       this.setState(state => ({
         matchCount: state.matchCount + 1
       }));
@@ -51,7 +64,7 @@ class CardGridContainer extends Component {
       return;
     } else {
       // no match
-      console.log('unflip cards');
+      console.log('no match')
       this.unflipCards();
     }
 
@@ -64,6 +77,11 @@ class CardGridContainer extends Component {
   flipCard = event => {
     console.log(event.currentTarget, ' is the current card');
     const card = event.currentTarget;
+
+    if (event.currentTarget === this.state.firstCard) {
+      console.log(' this is the same card');
+      return;
+    }
 
     if (this.state.lockBoard) {
       console.log('board locked');
@@ -89,7 +107,6 @@ class CardGridContainer extends Component {
 
     this.setState({
       secondCard: card,
-      cardFlipped: false,
     }, () => {
       this.checkMatch();
     });
