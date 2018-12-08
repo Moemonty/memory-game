@@ -6,44 +6,53 @@ import './CardGridContainer.css';
 class CardGridContainer extends Component {
   constructor(props) {
     super(props);
+
+    console.log(this, 'rendered Component');
+
     this.state = {
       status: 'unsolved',
       cardFlipped: false,
       firstCard: null,
       secondCard: null,
-      lockBoard: false
+      lockBoard: false,
+      matchCount: 0
     }
   }
 
-  // removePair = () => {
-  //   this.state.firstCard
-  // }
-
   unflipCards = () => {
     this.setState({
-      lockBoard: false
+      lockBoard: true
     });
 
-    this.state.firstCard.classList.remove('flip');
-    this.state.secondCard.classList.remove('flip');
+    setTimeout(() => {
+      this.state.firstCard.classList.remove('flip');
+      this.state.secondCard.classList.remove('flip');
+      
+      this.setState({
+        lockBoard: false
+      });
+    }, 1500);
   }
 
   checkMatch = () => {
-    // debugger;
 
     console.log(this.state.firstCard.dataset.name);
     console.log(this.state.secondCard.dataset.name);
 
+    // A MATCH
     if (this.state.firstCard.dataset.name === this.state.secondCard.dataset.name) {
       this.state.firstCard.setAttribute("disabled", "disabled");
       this.state.secondCard.setAttribute("disabled", "disabled");
-      return
+
+      this.setState(state => ({
+        matchCount: state.matchCount + 1
+      }));
+
+      return;
     } else {
+      // no match
       console.log('unflip cards');
-      
-      setTimeout(() => {
-        this.unflipCards();
-      }, 1500);
+      this.unflipCards();
     }
 
     this.setState({
@@ -81,10 +90,22 @@ class CardGridContainer extends Component {
     this.setState({
       secondCard: card,
       cardFlipped: false,
-      lockBoard: true,
     }, () => {
       this.checkMatch();
     });
+  }
+
+  checkGameStatus() {
+    console.log(this.state.matchCount);
+    if(this.state.matchCount === 12) {
+      setTimeout(() => {
+        alert('You win!');
+      },1500);
+    };
+  }
+
+  componentDidUpdate() {
+    this.checkGameStatus();
   }
 
   render() {
