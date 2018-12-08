@@ -1,4 +1,5 @@
 .card {
+  border: solid 1px #000;
   border-radius: 3px;
   width: calc(25% - 10px);
   height: calc(16.6667% - 10px);
@@ -26,11 +27,30 @@
   padding: 20px;
   position: absolute;
   border-radius: 5px;
-  background: #1C7CCC;
   backface-visibility: hidden;
+  text-align: center;
 }
 
 .card__front-face {
-  background: #fff;
+  background: #4682b4;
+  /*background: #1C7CCC;*/
+  color: #000;
   transform: rotateY(180deg);
+}
+
+.card__back-face {
+  background: #666;
+  color: #fff;
+}
+
+@media screen and (max-width: 680px) {
+  .card {
+    width: calc(50% - 10px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .card {
+    width: calc(100%);
+  }
 }

@@ -11,6 +11,7 @@ class CardGridContainer extends Component {
 
     this.state = {
       status: 'unsolved',
+      message: 'Game Start',
       cardFlipped: false,
       firstCard: null,
       secondCard: null,
@@ -20,6 +21,7 @@ class CardGridContainer extends Component {
   }
 
   resetBoard = () => {
+    console.log('board reset');
     this.setState({
       cardFlipped: false,
       lockBoard: false,
@@ -34,12 +36,17 @@ class CardGridContainer extends Component {
     });
 
     setTimeout(() => {
-      this.state.firstCard.classList.remove('flip');
-      this.state.secondCard.classList.remove('flip');
-      
-      this.setState({
-        lockBoard: false
-      });
+      const state = this.state;
+
+      if(state.firstCard) {
+        state.firstCard.classList.remove('flip');
+      }
+
+      if(state.secondCard) {
+        state.secondCard.classList.remove('flip');
+      }
+
+      this.resetBoard();
     }, 1500);
   }
 
@@ -49,55 +56,62 @@ class CardGridContainer extends Component {
   }
 
   checkMatch = () => {
-    console.log(this.state.firstCard.dataset.name);
-    console.log(this.state.secondCard.dataset.name);
-
     // A MATCH
     if (this.state.firstCard.dataset.name === this.state.secondCard.dataset.name) {
-      console.log('match');
       this.disableCards();
       this.resetBoard();
+
       this.setState(state => ({
-        matchCount: state.matchCount + 1
+        matchCount: state.matchCount + 1,
+        message: 'Matched!'
       }));
 
-      return;
-    } else {
-      // no match
-      console.log('no match')
       this.unflipCards();
-    }
+      return;
 
-    this.setState({
-      lockBoard: false
-    });
+    // NO MATCH
+    } else {
+      this.unflipCards();
+
+      this.setState(state => ({
+        message: 'No Match'
+      }));
+    }
   }
 
   // Public class fields syntax
   flipCard = event => {
-    console.log(event.currentTarget, ' is the current card');
     const card = event.currentTarget;
 
+    // Same Card chosen
     if (event.currentTarget === this.state.firstCard) {
-      console.log(' this is the same card');
+      this.setState(state => ({
+        message: 'Same Card Chosen'
+      }));
       return;
     }
 
+    // board locked..
     if (this.state.lockBoard) {
-      console.log('board locked');
+      this.setState(state => ({
+        message: 'Board locked...'
+      }));
       return;
     }
 
-    // if disabled, short circuit
+    // Cards already chosen
     if (card.attributes.disabled) {
-      console.log('dont check card');
+      this.setState(state => ({
+        message: 'Card has already been matched!'
+      }));
       return;
     }
 
+    // ADD FLIP CLASS
     event.currentTarget.classList.add('flip');
 
+    // Initial FLIP not done
     if (!this.state.cardFlipped) {
-      
       this.setState({
         cardFlipped: true,
         firstCard: card
@@ -105,6 +119,7 @@ class CardGridContainer extends Component {
       return;
     }
 
+    // CHECK SECOND CARD
     this.setState({
       secondCard: card,
     }, () => {
@@ -122,12 +137,14 @@ class CardGridContainer extends Component {
   }
 
   componentDidUpdate() {
+    console.log(this.state);
     this.checkGameStatus();
   }
 
   render() {
     return (
       <div className="div">
+        <h2 className="CardGridContainer__header">Game Status: { this.state.message ? this.state.message : null }</h2>
         <div className="CardGridContainer">
           {/*
             @TODO: Iterate through a date list
