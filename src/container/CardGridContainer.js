@@ -10,13 +10,23 @@ class CardGridContainer extends Component {
       status: 'unsolved',
       cardFlipped: false,
       firstCard: null,
-      secondCard: null
+      secondCard: null,
+      lockBoard: false
     }
   }
 
   // removePair = () => {
   //   this.state.firstCard
-  // }  
+  // }
+
+  unflipCards = () => {
+    this.setState({
+      lockBoard: false
+    });
+
+    this.state.firstCard.classList.remove('flip');
+    this.state.secondCard.classList.remove('flip');
+  }
 
   checkMatch = () => {
     // debugger;
@@ -27,16 +37,29 @@ class CardGridContainer extends Component {
     if (this.state.firstCard.dataset.name === this.state.secondCard.dataset.name) {
       this.state.firstCard.setAttribute("disabled", "disabled");
       this.state.secondCard.setAttribute("disabled", "disabled");
-      debugger;
-      return;
+      return
+    } else {
+      console.log('unflip cards');
+      
+      setTimeout(() => {
+        this.unflipCards();
+      }, 1500);
     }
+
+    this.setState({
+      lockBoard: false
+    });
   }
 
   // Public class fields syntax
   flipCard = event => {
     console.log(event.currentTarget, ' is the current card');
     const card = event.currentTarget;
-    const name = card.dataset.name;
+
+    if (this.state.lockBoard) {
+      console.log('board locked');
+      return;
+    }
 
     // if disabled, short circuit
     if (card.attributes.disabled) {
@@ -57,7 +80,8 @@ class CardGridContainer extends Component {
 
     this.setState({
       secondCard: card,
-      cardFlipped: false
+      cardFlipped: false,
+      lockBoard: true,
     }, () => {
       this.checkMatch();
     });
