@@ -1,7 +1,25 @@
 // CardGridContainer.js
 import React, { Component } from 'react';
 import Card from '../presentational/Card';
+
+import alacran from '../images/alacran.jpg';
+
 import './CardGridContainer.css';
+
+// @TODO:
+// 1. Create an array of 12 elements
+// 2. Randomize order of array of objects
+// 3. Render twice into card container
+// 4. Use array length for number of matches required to win game
+
+const cardSet = [
+  {
+    name: 'El Alacran',
+    img: alacran,
+  }
+];
+
+
 
 class CardGridContainer extends Component {
   constructor(props) {
@@ -151,6 +169,8 @@ class CardGridContainer extends Component {
             that will dynamically create each card from a data list
             onCardFlip prop takes flipCard function as param
           */}
+          <Card name={cardSet[0].name} img={cardSet[0].img} onCardFlip={ this.flipCard } />
+
           <Card name="Ace of Spades" onCardFlip={ this.flipCard } />
           <Card name="Ace of Hearts" onCardFlip={ this.flipCard } />
           <Card name="Ace of Clubs" onCardFlip={ this.flipCard } />

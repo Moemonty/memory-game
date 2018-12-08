@@ -11,6 +11,11 @@
   transition: transform .5s;
 }
 
+.card__img {
+  height: 100%;
+  width: auto;
+}
+
 .card.flip {
   transform: rotateY(180deg);
 }
@@ -33,7 +38,7 @@
 
 .card__front-face {
   background: #4682b4;
-  /*background: #1C7CCC;*/
+  padding: 0;
   color: #000;
   transform: rotateY(180deg);
 }
