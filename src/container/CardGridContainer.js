@@ -187,10 +187,14 @@ class CardGridContainer extends Component {
     console.log( sortedCards , ' are the sortedCards');
 
     return (
-      <div className="div">
+      <div className="div"> 
         <h2 className="CardGridContainer__header">Game Status: { this.state.message ? this.state.message : null }</h2>
         <div className="CardGridContainer">
           
+
+          { this.state.cards.map(card => {
+            return <Card name={card.name} img={card.img} onCardFlip={ this.flipCard } />
+          })}
 
           {/*
           <Card name="Ace of Spades" onCardFlip={ this.flipCard } />
