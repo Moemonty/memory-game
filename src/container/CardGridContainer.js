@@ -3,6 +3,17 @@ import React, { Component } from 'react';
 import Card from '../presentational/Card';
 
 import alacran from '../images/alacran.jpg';
+import pajaro from '../images/pajaro.jpg';
+import luna from '../images/luna.jpg';
+import umbrella from '../images/umbrella.jpg';
+import corona from '../images/corona.jpg';
+import chalupa from '../images/chalupa.jpg';
+import bandera from '../images/bandera.jpg';
+import catrin from '../images/catrin.jpg';
+import nopal from '../images/nopal.jpg';
+import rosa from '../images/rosa.jpg';
+import bota from '../images/bota.jpg';
+import sol from '../images/sol.jpg';
 
 import './CardGridContainer.css';
 
@@ -14,42 +25,83 @@ import './CardGridContainer.css';
 
 const cardSet = [
   {
-    name: 'El Alacran',
+    name: 'The Scorpion',
     img: alacran,
   },
   {
-    name: 'La Sandia',
-    img: 'test'
+    name: 'The Bird',
+    img: pajaro
   },
   {
-    name: 'El Valiente',
-    img: '',
+    name: 'The Moon',
+    img: luna,
   },
   {
-    name: 'La Chalupa',
-    img: ''
-  }
+    name: 'The Moon',
+    img: umbrella
+  },
+  {
+    name: 'Crown',
+    img: corona
+  },
+  {
+    name: 'Chalupa',
+    img: chalupa
+  },
+  {
+    name: 'Flag',
+    img: bandera
+  },
+  {
+    name: 'Gentleman',
+    img: catrin
+  },
+  {
+    name: 'Cactus',
+    img: nopal
+  },
+  {
+    name: 'Rose',
+    img: rosa
+  },
+  {
+    name: 'Boot',
+    img: bota
+  },
+  {
+    name: 'The Sun',
+    img: sol
+  },
 ];
 
-const shuffleCardSet = (a) => {
-  for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
+const shuffleCardSet = (array) => {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
   }
-  return a;
+  return array;
 }
 
-const sortedCards = shuffleCardSet(cardSet).concat(shuffleCardSet(cardSet));
+// concat to double cards
+const pairedCards = cardSet.concat(cardSet);
+
+// shuffle cards
+const shuffledCards = shuffleCardSet(pairedCards);
 
 
 class CardGridContainer extends Component {
   constructor(props) {
     super(props);
 
-    console.log(this, 'rendered Component');
-
     this.state = {
-      cards: sortedCards,
+      cards: shuffledCards,
       status: 'unsolved',
       message: 'Game Start',
       cardFlipped: false,
@@ -168,8 +220,7 @@ class CardGridContainer extends Component {
   }
 
   checkGameStatus() {
-    console.log(this.state.matchCount);
-    if(this.state.matchCount === 12) {
+    if(this.state.matchCount === (this.state.cards.length / 2)) {
       setTimeout(() => {
         alert('You win!');
       },1500);
@@ -184,16 +235,15 @@ class CardGridContainer extends Component {
   render() {
     // Shuffle cardSet and place into two arrays that are combined and rendered below
 
-    console.log( sortedCards , ' are the sortedCards');
-
     return (
-      <div className="div"> 
+      <div className="div">
         <h2 className="CardGridContainer__header">Game Status: { this.state.message ? this.state.message : null }</h2>
+        <h2 className="CardGridContainer__header">Match Count: { this.state.matchCount >= 0 ? this.state.matchCount : null }</h2>
         <div className="CardGridContainer">
           
 
-          { this.state.cards.map(card => {
-            return <Card name={card.name} img={card.img} onCardFlip={ this.flipCard } />
+          { this.state.cards.map((card, index) => {
+            return <Card key={index} name={card.name} img={card.img} onCardFlip={ this.flipCard } />
           })}
 
           {/*
