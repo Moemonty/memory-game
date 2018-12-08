@@ -16,9 +16,30 @@ const cardSet = [
   {
     name: 'El Alacran',
     img: alacran,
+  },
+  {
+    name: 'La Sandia',
+    img: 'test'
+  },
+  {
+    name: 'El Valiente',
+    img: '',
+  },
+  {
+    name: 'La Chalupa',
+    img: ''
   }
 ];
 
+const shuffleCardSet = (a) => {
+  for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const sortedCards = shuffleCardSet(cardSet).concat(shuffleCardSet(cardSet));
 
 
 class CardGridContainer extends Component {
@@ -28,6 +49,7 @@ class CardGridContainer extends Component {
     console.log(this, 'rendered Component');
 
     this.state = {
+      cards: sortedCards,
       status: 'unsolved',
       message: 'Game Start',
       cardFlipped: false,
@@ -160,17 +182,17 @@ class CardGridContainer extends Component {
   }
 
   render() {
+    // Shuffle cardSet and place into two arrays that are combined and rendered below
+
+    console.log( sortedCards , ' are the sortedCards');
+
     return (
       <div className="div">
         <h2 className="CardGridContainer__header">Game Status: { this.state.message ? this.state.message : null }</h2>
         <div className="CardGridContainer">
-          {/*
-            @TODO: Iterate through a date list
-            that will dynamically create each card from a data list
-            onCardFlip prop takes flipCard function as param
-          */}
-          <Card name={cardSet[0].name} img={cardSet[0].img} onCardFlip={ this.flipCard } />
+          
 
+          {/*
           <Card name="Ace of Spades" onCardFlip={ this.flipCard } />
           <Card name="Ace of Hearts" onCardFlip={ this.flipCard } />
           <Card name="Ace of Clubs" onCardFlip={ this.flipCard } />
@@ -195,6 +217,7 @@ class CardGridContainer extends Component {
           <Card name="Queen of Hearts" onCardFlip={ this.flipCard } />
           <Card name="Queen of Clubs" onCardFlip={ this.flipCard } />
           <Card name="Queen of Diamonds" onCardFlip={ this.flipCard } />
+          */}
         </div>
       </div>
     );
