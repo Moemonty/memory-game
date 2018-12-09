@@ -1,7 +1,9 @@
 
 # Memory Game - Practice
 
-## Run nvm use to set node version
+## Run
+1. nvm use
+2. npm install
+3. npm run start
 
-## Run `yarn start`
 - View the app at localhost:3000
