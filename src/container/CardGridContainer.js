@@ -25,52 +25,51 @@ const cardSet = [
   {
     name: 'The Scorpion',
     img: alacran,
+  },
+  {
+    name: 'The Bird',
+    img: pajaro
+  },
+  {
+    name: 'The Moon',
+    img: luna,
+  },
+  {
+    name: 'Umbrella',
+    img: umbrella
+  },
+  {
+    name: 'Crown',
+    img: corona
+  },
+  {
+    name: 'Chalupa',
+    img: chalupa
+  },
+  {
+    name: 'Flag',
+    img: bandera
+  },
+  {
+    name: 'Gentleman',
+    img: catrin
+  },
+  {
+    name: 'Cactus',
+    img: nopal
+  },
+  {
+    name: 'Rose',
+    img: rosa
+  },
+  {
+    name: 'Boot',
+    img: bota
+  },
+  {
+    name: 'The Sun',
+    img: sol
   }
-  // ,
-  // {
-  //   name: 'The Bird',
-  //   img: pajaro
-  // },
-  // {
-  //   name: 'The Moon',
-  //   img: luna,
-  // },
-  // {
-  //   name: 'Umbrella',
-  //   img: umbrella
-  // },
-  // {
-  //   name: 'Crown',
-  //   img: corona
-  // },
-  // {
-  //   name: 'Chalupa',
-  //   img: chalupa
-  // },
-  // {
-  //   name: 'Flag',
-  //   img: bandera
-  // },
-  // {
-  //   name: 'Gentleman',
-  //   img: catrin
-  // },
-  // {
-  //   name: 'Cactus',
-  //   img: nopal
-  // },
-  // {
-  //   name: 'Rose',
-  //   img: rosa
-  // },
-  // {
-  //   name: 'Boot',
-  //   img: bota
-  // },
-  // {
-  //   name: 'The Sun',
-  //   img: sol
-  // },
 ];
 
 // Known Shuffle Algo
@@ -89,11 +88,12 @@ const shuffleCardSet = (array) => {
   return array;
 }
 
-// concat the same cardset to double array
-const pairedCards = cardSet.concat(cardSet);
-
-// shuffle cards
-const shuffledCards = shuffleCardSet(pairedCards);
+const shuffledCards = () => {
+  // concat the same cardset to double array
+  const pairedCards = cardSet.concat(cardSet);
+  // shuffle cards
+  return shuffleCardSet(pairedCards);
+}
 
 class CardGridContainer extends Component {
   constructor(props) {
@@ -101,7 +101,7 @@ class CardGridContainer extends Component {
 
     this.state = {
       cardBack: loteriaCard,
-      cards: shuffledCards,
+      cards: shuffledCards(),
       gameWon: false,
       message: 'Game Start',
       cardFlipped: false,
@@ -229,11 +229,38 @@ class CardGridContainer extends Component {
     }
   }
 
+  resetGame() {
+    // shuffle cards
+    this.unflipCards();
+    // remove all disabled attributes
+
+    // @TODO: Use some other attribute to determine
+    // whether or not element is clickable..
+    // remove all disabled attributes
+    document.querySelectorAll('.card').forEach((card) => {
+      card.removeAttribute('disabled');
+      card.classList.remove('flip');
+    });
+
+    // Create new set of ordered cards and set state to start
+    const cards = shuffledCards();
+    this.setState(state => ({
+      cards: cards,
+      message: 'Game Start',
+      cardFlipped: false,
+      firstCard: null,
+      secondCard: null,
+      lockBoard: false,
+      matchCount: 0
+    }));
+  }
+
   render() {
     return (
       <div className="div">
         <h2 className="CardGridContainer__header">Game Status: { this.state.message ? this.state.message : null }</h2>
         <h3 className="CardGridContainer__header">Match Count: { this.state.matchCount >= 0 ? this.state.matchCount : null }</h3>
+        <button className="CardGridContainer__reset" onClick={this.resetGame.bind(this)}>Reset Game</button>
         <div className="CardGridContainer">
           { this.state.cards.map((card, index) => {
             return <Card key={index} cardBack={this.state.cardBack} name={card.name} img={card.img} onCardFlip={ this.flipCard } />

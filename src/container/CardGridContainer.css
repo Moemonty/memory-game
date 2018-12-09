@@ -6,6 +6,18 @@
   flex-wrap: wrap;
 }
 
+.CardGridContainer__reset {
+  padding: 10px;
+  background: #caf2a2;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  display: block;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+  margin: 10px auto;
+}
+
 .CardGridContainer__header {
   color: #caf2a2;
   text-align: center;
