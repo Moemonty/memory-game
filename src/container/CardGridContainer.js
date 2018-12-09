@@ -104,7 +104,7 @@ class CardGridContainer extends Component {
     this.state = {
       cardBack: loteriaCard,
       cards: shuffledCards,
-      status: 'unsolved',
+      gameWon: false,
       message: 'Game Start',
       cardFlipped: false,
       firstCard: null,
@@ -223,9 +223,10 @@ class CardGridContainer extends Component {
 
   checkGameStatus() {
     if(this.state.matchCount === (this.state.cards.length / 2)) {
-      setTimeout(() => {
-        alert('You win!');
-      },1500);
+      this.setState({
+        message: 'You win!',
+        gameWon: true,
+      });
     };
   }
 
