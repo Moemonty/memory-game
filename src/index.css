@@ -5,7 +5,8 @@
   box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+body {
+  color: #fff;
+  background: #5d80a7;
+  font-family: 'Roboto', sans-serif;
 }

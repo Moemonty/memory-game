@@ -14,6 +14,7 @@ import nopal from '../images/nopal.jpg';
 import rosa from '../images/rosa.jpg';
 import bota from '../images/bota.jpg';
 import sol from '../images/sol.jpg';
+import loteriaCard from '../images/loteriaCard.jpg';
 
 import './CardGridContainer.css';
 
@@ -37,7 +38,7 @@ const cardSet = [
     img: luna,
   },
   {
-    name: 'The Moon',
+    name: 'Umbrella',
     img: umbrella
   },
   {
@@ -101,6 +102,7 @@ class CardGridContainer extends Component {
     super(props);
 
     this.state = {
+      cardBack: loteriaCard,
       cards: shuffledCards,
       status: 'unsolved',
       message: 'Game Start',
@@ -238,40 +240,11 @@ class CardGridContainer extends Component {
     return (
       <div className="div">
         <h2 className="CardGridContainer__header">Game Status: { this.state.message ? this.state.message : null }</h2>
-        <h2 className="CardGridContainer__header">Match Count: { this.state.matchCount >= 0 ? this.state.matchCount : null }</h2>
+        <h3 className="CardGridContainer__header">Match Count: { this.state.matchCount >= 0 ? this.state.matchCount : null }</h3>
         <div className="CardGridContainer">
-          
-
           { this.state.cards.map((card, index) => {
-            return <Card key={index} name={card.name} img={card.img} onCardFlip={ this.flipCard } />
+            return <Card key={index} cardBack={this.state.cardBack} name={card.name} img={card.img} onCardFlip={ this.flipCard } />
           })}
-
-          {/*
-          <Card name="Ace of Spades" onCardFlip={ this.flipCard } />
-          <Card name="Ace of Hearts" onCardFlip={ this.flipCard } />
-          <Card name="Ace of Clubs" onCardFlip={ this.flipCard } />
-          <Card name="Ace of Diamonds" onCardFlip={ this.flipCard }/>
-          <Card name="Ace of Spades" onCardFlip={ this.flipCard } />
-          <Card name="Ace of Hearts" onCardFlip={ this.flipCard } />
-          <Card name="Ace of Clubs" onCardFlip={ this.flipCard } />
-          <Card name="Ace of Diamonds" onCardFlip={ this.flipCard } />
-          <Card name="Jack of Spades" onCardFlip={ this.flipCard } />
-          <Card name="Jack of Hearts" onCardFlip={ this.flipCard } />
-          <Card name="Jack of Clubs" onCardFlip={ this.flipCard } />
-          <Card name="Jack of Diamonds" onCardFlip={ this.flipCard } />
-          <Card name="Jack of Spades" onCardFlip={ this.flipCard } />
-          <Card name="Jack of Hearts" onCardFlip={ this.flipCard } />
-          <Card name="Jack of Clubs" onCardFlip={ this.flipCard } />
-          <Card name="Jack of Diamonds" onCardFlip={ this.flipCard } />
-          <Card name="Queen of Spades" onCardFlip={ this.flipCard } />
-          <Card name="Queen of Hearts" onCardFlip={ this.flipCard } />
-          <Card name="Queen of Clubs" onCardFlip={ this.flipCard } />
-          <Card name="Queen of Diamonds" onCardFlip={ this.flipCard } />
-          <Card name="Queen of Spades" onCardFlip={ this.flipCard } />
-          <Card name="Queen of Hearts" onCardFlip={ this.flipCard } />
-          <Card name="Queen of Clubs" onCardFlip={ this.flipCard } />
-          <Card name="Queen of Diamonds" onCardFlip={ this.flipCard } />
-          */}
         </div>
       </div>
     );

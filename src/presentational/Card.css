@@ -1,11 +1,9 @@
 .card {
-  border: solid 1px #000;
   border-radius: 3px;
-  width: calc(25% - 10px);
-  height: calc(16.6667% - 10px);
+  width: calc(12.4667% - 10px);
+  height: calc(32.666% - 10px);
   margin: 5px;
   position: relative;
-  box-shadow: 1px 1px 1px rgba(0,0,0,.3);
   transform: scale(1);
   transform-style: preserve-3d;
   transition: transform .5s;
@@ -29,7 +27,6 @@
 .card__back-face {
   width: 100%;
   height: 100%;
-  padding: 20px;
   position: absolute;
   border-radius: 5px;
   backface-visibility: hidden;
@@ -37,18 +34,16 @@
 }
 
 .card__front-face {
-  background: #4682b4;
   padding: 0;
   color: #000;
   transform: rotateY(180deg);
 }
 
 .card__back-face {
-  background: #666;
-  color: #fff;
+
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 800px) {
   .card {
     width: calc(50% - 10px);
   }

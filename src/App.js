@@ -6,10 +6,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1>
-            Memory Game
-          </h1>
+        <header>
+          <h1 className="App-header">Memory Game</h1>
         </header>
         <CardGridContainer />
       </div>

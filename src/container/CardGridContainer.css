@@ -1,18 +1,19 @@
 .CardGridContainer {
-  background: #000;
-  width: 640px;
-  height: 960px;
+  width: 800px;
+  height: 455px;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
 }
 
 .CardGridContainer__header {
+  color: #caf2a2;
   text-align: center;
+  font-size: 12px;
   margin-bottom: 10px;
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 800px) {
   .CardGridContainer {
     width: 50%;
   }
