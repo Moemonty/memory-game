@@ -97,6 +97,8 @@ const shuffledCards = () => {
 
 class CardGridContainer extends Component {
   constructor(props) {
+    
+    console.log('constructed grid container');
     super(props);
 
     this.state = {
