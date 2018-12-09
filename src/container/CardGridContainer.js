@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import Card from '../presentational/Card';
 
+import './CardGridContainer.css';
+
 import alacran from '../images/alacran.jpg';
 import pajaro from '../images/pajaro.jpg';
 import luna from '../images/luna.jpg';
@@ -16,65 +18,62 @@ import bota from '../images/bota.jpg';
 import sol from '../images/sol.jpg';
 import loteriaCard from '../images/loteriaCard.jpg';
 
-import './CardGridContainer.css';
 
-// @TODO:
-// 1. Create an array of 12 elements
-// 2. Randomize order of array of objects
-// 3. Render twice into card container
-// 4. Use array length for number of matches required to win game
+
 
 const cardSet = [
   {
     name: 'The Scorpion',
     img: alacran,
-  },
-  {
-    name: 'The Bird',
-    img: pajaro
-  },
-  {
-    name: 'The Moon',
-    img: luna,
-  },
-  {
-    name: 'Umbrella',
-    img: umbrella
-  },
-  {
-    name: 'Crown',
-    img: corona
-  },
-  {
-    name: 'Chalupa',
-    img: chalupa
-  },
-  {
-    name: 'Flag',
-    img: bandera
-  },
-  {
-    name: 'Gentleman',
-    img: catrin
-  },
-  {
-    name: 'Cactus',
-    img: nopal
-  },
-  {
-    name: 'Rose',
-    img: rosa
-  },
-  {
-    name: 'Boot',
-    img: bota
-  },
-  {
-    name: 'The Sun',
-    img: sol
-  },
+  }
+  // ,
+  // {
+  //   name: 'The Bird',
+  //   img: pajaro
+  // },
+  // {
+  //   name: 'The Moon',
+  //   img: luna,
+  // },
+  // {
+  //   name: 'Umbrella',
+  //   img: umbrella
+  // },
+  // {
+  //   name: 'Crown',
+  //   img: corona
+  // },
+  // {
+  //   name: 'Chalupa',
+  //   img: chalupa
+  // },
+  // {
+  //   name: 'Flag',
+  //   img: bandera
+  // },
+  // {
+  //   name: 'Gentleman',
+  //   img: catrin
+  // },
+  // {
+  //   name: 'Cactus',
+  //   img: nopal
+  // },
+  // {
+  //   name: 'Rose',
+  //   img: rosa
+  // },
+  // {
+  //   name: 'Boot',
+  //   img: bota
+  // },
+  // {
+  //   name: 'The Sun',
+  //   img: sol
+  // },
 ];
 
+// Known Shuffle Algo
 const shuffleCardSet = (array) => {
   var currentIndex = array.length, temporaryValue, randomIndex;
   // While there remain elements to shuffle...
@@ -90,12 +89,11 @@ const shuffleCardSet = (array) => {
   return array;
 }
 
-// concat to double cards
+// concat the same cardset to double array
 const pairedCards = cardSet.concat(cardSet);
 
 // shuffle cards
 const shuffledCards = shuffleCardSet(pairedCards);
-
 
 class CardGridContainer extends Component {
   constructor(props) {
@@ -115,7 +113,6 @@ class CardGridContainer extends Component {
   }
 
   resetBoard = () => {
-    console.log('board reset');
     this.setState({
       cardFlipped: false,
       lockBoard: false,
@@ -158,7 +155,9 @@ class CardGridContainer extends Component {
       this.setState(state => ({
         matchCount: state.matchCount + 1,
         message: 'Matched!'
-      }));
+      }), () => {
+        this.checkGameStatus();
+      });
 
       this.unflipCards();
       return;
@@ -223,21 +222,14 @@ class CardGridContainer extends Component {
 
   checkGameStatus() {
     if(this.state.matchCount === (this.state.cards.length / 2)) {
-      this.setState({
+      this.setState(state => ({
         message: 'You win!',
         gameWon: true,
-      });
-    };
-  }
-
-  componentDidUpdate() {
-    console.log(this.state);
-    this.checkGameStatus();
+      }));
+    }
   }
 
   render() {
-    // Shuffle cardSet and place into two arrays that are combined and rendered below
-
     return (
       <div className="div">
         <h2 className="CardGridContainer__header">Game Status: { this.state.message ? this.state.message : null }</h2>
