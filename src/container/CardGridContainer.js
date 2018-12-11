@@ -1,4 +1,3 @@
-// CardGridContainer.js
 import React, { Component } from 'react';
 import Card from '../presentational/Card';
 
@@ -17,9 +16,6 @@ import rosa from '../images/rosa.jpg';
 import bota from '../images/bota.jpg';
 import sol from '../images/sol.jpg';
 import loteriaCard from '../images/loteriaCard.jpg';
-
-
-
 
 const cardSet = [
   {
@@ -97,7 +93,7 @@ const shuffledCards = () => {
 
 class CardGridContainer extends Component {
   constructor(props) {
-    
+
     console.log('constructed grid container');
     super(props);
 
