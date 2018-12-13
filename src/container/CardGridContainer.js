@@ -10,6 +10,7 @@ class CardGridContainer extends Component {
     super(props);
 
     this.state = {
+      cardSet: cardSet,
       cardBack: loteriaCard,
       cards: this.shuffledCards(cardSet),
       gameWon: false,
@@ -55,23 +56,27 @@ shuffledCards (cardSet) {
   }
 
   unflipCards = () => {
-    this.setState({
-      lockBoard: true
+    return new Promise((resolve) => {
+        this.setState({
+          lockBoard: true
+        });
+
+        setTimeout(() => {
+          const state = this.state;
+
+          if(state.firstCard) {
+            state.firstCard.classList.remove('flip');
+          }
+
+          if(state.secondCard) {
+            state.secondCard.classList.remove('flip');
+          }
+
+          this.resetBoard();
+
+          resolve();
+        }, 1500);
     });
-
-    setTimeout(() => {
-      const state = this.state;
-
-      if(state.firstCard) {
-        state.firstCard.classList.remove('flip');
-      }
-
-      if(state.secondCard) {
-        state.secondCard.classList.remove('flip');
-      }
-
-      this.resetBoard();
-    }, 1500);
   }
 
   disableCards = () => {
@@ -163,22 +168,13 @@ shuffledCards (cardSet) {
   }
 
   resetGame() {
-    // shuffle cards
-    this.unflipCards();
-    // remove all disabled attributes
-
-    // @TODO: Use some other attribute to determine
-    // whether or not element is clickable..
-    // remove all disabled attributes
+    // Update the UI
     document.querySelectorAll('.card').forEach((card) => {
-      card.removeAttribute('disabled');
-      card.classList.remove('flip');
+        card.removeAttribute('disabled');
+        card.classList.remove('flip');
     });
 
-    // Create new set of ordered cards and set state to start
-    const cards = this.shuffledCards();
     this.setState(state => ({
-      cards: cards,
       message: 'Game Start',
       cardFlipped: false,
       firstCard: null,
@@ -186,6 +182,18 @@ shuffledCards (cardSet) {
       lockBoard: false,
       matchCount: 0
     }));
+
+    // Update the underlying card order afer card flip
+    this.unflipCards().then(() => {
+      // wait for cards to flip
+      // Create new set of ordered cards and set state to start
+      const cards = this.shuffledCards(this.state.cardSet);
+      
+      this.setState(state => ({
+        cards: cards
+      }));
+
+    });
   }
 
   render() {

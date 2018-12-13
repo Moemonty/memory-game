@@ -116,11 +116,93 @@ describe('CardGridContainer', () => {
       <CardGridContainer cardSet={cardSet} />
     ));
 
-
     wrapper.find('[data-name="The Scorpion"]').forEach((node, index) => {
       node.simulate('click');
     });
 
     expect(wrapper.find('[data-status]').text()).toBe('Game Status: You win!');
   });
+
+  test('if a user clicks on an already clicked card', () => {
+    const cardSet = [
+      {
+        name: 'The Scorpion',
+        img: 'http://www.moemonty.com/Scorpion.jpg'
+      }
+    ];
+
+    const wrapper = mount((
+      <CardGridContainer cardSet={cardSet} />
+    ));
+
+    wrapper.find('[data-name="The Scorpion"]').forEach((node, index) => {
+      if(index === 0 ){
+        node.simulate('click');
+        node.simulate('click');
+      }
+    });
+
+    expect(wrapper.find('[data-status]').text()).toBe('Game Status: Same Card Chosen');
+  });
+
+  test('if a user clicks rapidly after a match, one card, one non-match, then another card then the board is locked', () => {
+    const cardSet = [
+      {
+        name: 'The Scorpion',
+        img: 'http://www.moemonty.com/Scorpion.jpg'
+      },
+      {
+        name: 'The Sun',
+        img: 'http://www.moemonty.com/Sun.jpg'
+      }
+    ];
+
+    const wrapper = mount((
+      <CardGridContainer cardSet={cardSet} />
+    ));
+
+    wrapper.find('[data-name="The Scorpion"]').forEach((node, index) => {
+      if(index === 0 ){
+        node.simulate('click');
+      }
+    });
+
+    wrapper.find('[data-name="The Sun"]').forEach((node, index) => {
+        node.simulate('click');
+    });
+
+    expect(wrapper.find('[data-status]').text()).toBe('Game Status: Board locked...');
+  });
+
+  test('a user resets a board after winning', () => {
+    const cardSet = [
+      {
+        name: 'The Scorpion',
+        img: 'http://www.moemonty.com/Scorpion.jpg'
+      }
+    ];
+
+    const wrapper = mount((
+      <CardGridContainer cardSet={cardSet} />
+    ));
+
+    wrapper.find('[data-name="The Scorpion"]').forEach((node, index) => {
+      if(index === 0 ){
+        node.simulate('click');
+      }
+    });
+
+    expect(wrapper.find('[data-status]').text()).toBe('Game Status: Game Start');
+
+    wrapper.find('[data-name="The Scorpion"]').forEach((node, index) => {
+      if(index === 1 ){
+        node.simulate('click');
+      }
+    });
+
+    expect(wrapper.find('[data-status]').text()).toBe('Game Status: You win!');
+
+    wrapper.find('.CardGridContainer__reset').simulate('click');
+    expect(wrapper.find('[data-status]').text()).toBe('Game Status: Game Start');
+  })
 });
