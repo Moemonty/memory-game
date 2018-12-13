@@ -67,6 +67,8 @@ describe('CardGridContainer', () => {
         // }
 
         node.simulate('click');
+        // Does this method trigger a rerender?
+        // Update state, so ought to?
       });
 
       // cardBoot[0].simulate('click');
@@ -76,10 +78,12 @@ describe('CardGridContainer', () => {
       // console.log(cardBoot.debug() , ' is the boot');
 
       wrapper.update();
+      // Is this necessary?
 
       // expect(componentInstance.state.message).toBe('Game Start');
 
       expect(componentInstance.state.message).toBe('Matched!');
       // console.log(wrapper.debug(), ' is the wrapper');
+      // @TODO: Unmount istance?
     });
 });
