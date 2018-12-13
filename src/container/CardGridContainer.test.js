@@ -39,8 +39,19 @@ describe('CardGridContainer', () => {
 
 
     test.only('game message to be Matched! if cards are the same', () => {
+      const cardSet = [
+        {
+          name: 'The Scorpion',
+          img: 'http://www.moemonty.com/Scorpion.jpg'
+        },
+        {
+          name: 'The Sun',
+          img: 'http://www.moemonty.com/Sun.jpg'
+        }
+      ];
+
       const wrapper = mount((
-        <CardGridContainer />
+        <CardGridContainer cardSet={cardSet} />
       ));
 
       const componentInstance = wrapper.instance();

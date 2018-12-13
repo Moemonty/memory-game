@@ -2,74 +2,31 @@ import React, { Component } from 'react';
 import Card from '../presentational/Card';
 
 import './CardGridContainer.css';
-
-import alacran from '../images/alacran.jpg';
-import pajaro from '../images/pajaro.jpg';
-import luna from '../images/luna.jpg';
-import umbrella from '../images/umbrella.jpg';
-import corona from '../images/corona.jpg';
-import chalupa from '../images/chalupa.jpg';
-import bandera from '../images/bandera.jpg';
-import catrin from '../images/catrin.jpg';
-import nopal from '../images/nopal.jpg';
-import rosa from '../images/rosa.jpg';
-import bota from '../images/bota.jpg';
-import sol from '../images/sol.jpg';
 import loteriaCard from '../images/loteriaCard.jpg';
 
-const cardSet = [
-  {
-    name: 'The Scorpion',
-    img: alacran,
-  },
-  {
-    name: 'The Bird',
-    img: pajaro
-  },
-  {
-    name: 'The Moon',
-    img: luna,
-  },
-  {
-    name: 'Umbrella',
-    img: umbrella
-  },
-  {
-    name: 'Crown',
-    img: corona
-  },
-  {
-    name: 'Chalupa',
-    img: chalupa
-  },
-  {
-    name: 'Flag',
-    img: bandera
-  },
-  {
-    name: 'Gentleman',
-    img: catrin
-  },
-  {
-    name: 'Cactus',
-    img: nopal
-  },
-  {
-    name: 'Rose',
-    img: rosa
-  },
-  {
-    name: 'Boot',
-    img: bota
-  },
-  {
-    name: 'The Sun',
-    img: sol
-  }
-];
+class CardGridContainer extends Component {
+  constructor(props) {
 
-// Known Shuffle Algo
-const shuffleCardSet = (array) => {
+    const { cardSet } = props;
+
+    console.log('constructed grid container');
+    super(props);
+
+    this.state = {
+      cardBack: loteriaCard,
+      cards: this.shuffledCards(cardSet),
+      gameWon: false,
+      message: 'Game Start',
+      cardFlipped: false,
+      firstCard: null,
+      secondCard: null,
+      lockBoard: false,
+      matchCount: 0
+    }
+  }
+
+  // Known Shuffle Algo
+shuffleCardSet (array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
   // While there remain elements to shuffle...
   while (0 !== currentIndex) {
@@ -84,31 +41,13 @@ const shuffleCardSet = (array) => {
   return array;
 }
 
-const shuffledCards = () => {
+shuffledCards (cardSet) {
+  console.log(this);
   // concat the same cardset to double array
   const pairedCards = cardSet.concat(cardSet);
   // shuffle cards
-  return shuffleCardSet(pairedCards);
+  return this.shuffleCardSet(pairedCards);
 }
-
-class CardGridContainer extends Component {
-  constructor(props) {
-
-    console.log('constructed grid container');
-    super(props);
-
-    this.state = {
-      cardBack: loteriaCard,
-      cards: shuffledCards(),
-      gameWon: false,
-      message: 'Game Start',
-      cardFlipped: false,
-      firstCard: null,
-      secondCard: null,
-      lockBoard: false,
-      matchCount: 0
-    }
-  }
 
   resetBoard = () => {
     this.setState({
@@ -241,7 +180,7 @@ class CardGridContainer extends Component {
     });
 
     // Create new set of ordered cards and set state to start
-    const cards = shuffledCards();
+    const cards = this.shuffledCards();
     this.setState(state => ({
       cards: cards,
       message: 'Game Start',
