@@ -39,7 +39,6 @@ shuffleCardSet (array) {
 }
 
 shuffledCards (cardSet) {
-  console.log(this);
   // concat the same cardset to double array
   const pairedCards = cardSet.concat(cardSet);
   // shuffle cards
@@ -192,8 +191,11 @@ shuffledCards (cardSet) {
   render() {
     return (
       <div className="div">
-        <h2 className="CardGridContainer__header">Game Status: { this.state.message ? this.state.message : null }</h2>
-        <h3 className="CardGridContainer__header">Match Count: { this.state.matchCount >= 0 ? this.state.matchCount : null }</h3>
+        <h2 className="CardGridContainer__header"
+          data-status={this.state.message ? this.state.message : null}>
+            Game Status: { this.state.message ? this.state.message : null }
+        </h2>
+        <h3 className="CardGridContainer__header" data-count={this.state.matchCount >= 0 ? this.state.matchCount : null}>Match Count: { this.state.matchCount >= 0 ? this.state.matchCount : null }</h3>
         <button className="CardGridContainer__reset" onClick={this.resetGame.bind(this)}>Reset Game</button>
         <div className="CardGridContainer">
           { this.state.cards.map((card, index) => {

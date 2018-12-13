@@ -9,81 +9,118 @@ import CardGridContainer from './CardGridContainer';
 import Card from '../presentational/Card';
 
 describe('CardGridContainer', () => {
-  // let wrapper = '';
-  // let componentInstance = '';
+  test('renders the CardGridContainer with Card components twice the length of the dataset array', () => {
+    const cardSet = [
+      {
+        name: 'The Scorpion',
+        img: 'http://www.moemonty.com/Scorpion.jpg'
+      },
+      {
+        name: 'The Sun',
+        img: 'http://www.moemonty.com/Sun.jpg'
+      }
+    ];
 
-  // beforeEach(() => {
-  //   wrapper = shallow((
-  //     <CardGridContainer />
-  //   ));
-  //   componentInstance = wrapper.instance();
-  // });
-
-  test('renders the CardGridContainer component with dataset of 24 items', () => {
     const wrapper = shallow((
-      <CardGridContainer />
+      <CardGridContainer cardSet={cardSet} />
     ));
-    expect(wrapper.find('Card')).toBeDefined();
-    expect(wrapper.find('Card')).toHaveLength(24);
+
+    expect(wrapper.find('Card')).toHaveLength(4);
   });
 
   test('renders the CardGridContainer message state with game start', () => {
-    const wrapper = shallow((
-      <CardGridContainer />
-    ));
-    const componentInstance = wrapper.instance();
+    const cardSet = [
+      {
+        name: 'The Scorpion',
+        img: 'http://www.moemonty.com/Scorpion.jpg'
+      },
+      {
+        name: 'The Sun',
+        img: 'http://www.moemonty.com/Sun.jpg'
+      }
+    ];
 
-    expect(componentInstance.state.message).toBe('Game Start');
-    console.log(wrapper.debug(), ' is the wrapper');
+    const wrapper = shallow((
+      <CardGridContainer cardSet={cardSet} />
+    ));
+
+    expect(wrapper.find('[data-status]').text()).toBe('Game Status: Game Start');
   });
 
+  test('game message to be Matched! if cards are the same', () => {
+    const cardSet = [
+      {
+        name: 'The Scorpion',
+        img: 'http://www.moemonty.com/Scorpion.jpg'
+      },
+      {
+        name: 'The Sun',
+        img: 'http://www.moemonty.com/Sun.jpg'
+      }
+    ];
 
-    test.only('game message to be Matched! if cards are the same', () => {
-      const cardSet = [
-        {
-          name: 'The Scorpion',
-          img: 'http://www.moemonty.com/Scorpion.jpg'
-        },
-        {
-          name: 'The Sun',
-          img: 'http://www.moemonty.com/Sun.jpg'
-        }
-      ];
+    const wrapper = mount((
+      <CardGridContainer cardSet={cardSet} />
+    ));
 
-      const wrapper = mount((
-        <CardGridContainer cardSet={cardSet} />
-      ));
+    const componentInstance = wrapper.instance();
 
-      const componentInstance = wrapper.instance();
-      // http://enthudrives.com/blog/how-to-test-react-state/
-      // console.log(wrapper.debug());
-
-      const cardBoot = wrapper.find('[data-name="The Sun"]').forEach((node, index) => {
-        // NO MATCH
-        // if(index === 0 ){
-        //   node.simulate('click');
-        // } else {
-        //   console.log('no click');
-        // }
-
-        node.simulate('click');
-        // Does this method trigger a rerender?
-        // Update state, so ought to?
-      });
-
-      // cardBoot[0].simulate('click');
-
-      // console.log('test');
-
-      // console.log(cardBoot.debug() , ' is the boot');
-
-      wrapper.update();
-      // Is this necessary?
-
-      // expect(componentInstance.state.message).toBe('Game Start');
-
-      expect(componentInstance.state.message).toBe('Matched!');
-      // console.log(wrapper.debug(), ' is the wrapper');
-      // @TODO: Unmount istance?
+    const cardBoot = wrapper.find('[data-name="The Sun"]').forEach((node, index) => {
+      node.simulate('click');
     });
+
+    expect(wrapper.find('[data-status]').text()).toBe('Game Status: Matched!');
+  });
+
+  test('game message to NOT be Matched! if cards are not the same', () => {
+    const cardSet = [
+      {
+        name: 'The Scorpion',
+        img: 'http://www.moemonty.com/Scorpion.jpg'
+      },
+      {
+        name: 'The Sun',
+        img: 'http://www.moemonty.com/Sun.jpg'
+      }
+    ];
+
+    const wrapper = mount((
+      <CardGridContainer cardSet={cardSet} />
+    ));
+
+
+    wrapper.find('[data-name="The Scorpion"]').forEach((node, index) => {
+      if(index === 0 ){
+        node.simulate('click');
+      }
+    });
+
+    wrapper.find('[data-name="The Sun"]').forEach((node, index) => {
+      if(index === 0 ){
+        node.simulate('click');
+      }
+    });
+
+    expect(wrapper.find('[data-status]').text()).toBe('Game Status: No Match');
+  });
+
+  test('If all cards are matched, player wins', () => {
+    const cardSet = [
+      {
+        name: 'The Scorpion',
+        img: 'http://www.moemonty.com/Scorpion.jpg'
+      }
+    ];
+
+    const wrapper = mount((
+      <CardGridContainer cardSet={cardSet} />
+    ));
+
+
+    wrapper.find('[data-name="The Scorpion"]').forEach((node, index) => {
+      node.simulate('click');
+    });
+
+    expect(wrapper.find('[data-status]').text()).toBe('Game Status: You win!');
+  });
 });
