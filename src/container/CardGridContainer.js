@@ -4,6 +4,8 @@ import Card from '../presentational/Card';
 import './CardGridContainer.css';
 import loteriaCard from '../images/loteriaCard.jpg';
 
+import PropTypes from 'prop-types';
+
 class CardGridContainer extends Component {
   constructor(props) {
     const { cardSet } = props;
@@ -24,27 +26,27 @@ class CardGridContainer extends Component {
   }
 
   // Known Shuffle Algo
-shuffleCardSet (array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
+  shuffleCardSet (array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+    return array;
   }
-  return array;
-}
 
-shuffledCards (cardSet) {
-  // concat the same cardset to double array
-  const pairedCards = cardSet.concat(cardSet);
-  // shuffle cards
-  return this.shuffleCardSet(pairedCards);
-}
+  shuffledCards (cardSet) {
+    // concat the same cardset to double array
+    const pairedCards = cardSet.concat(cardSet);
+    // shuffle cards
+    return this.shuffleCardSet(pairedCards);
+  }
 
   resetBoard = () => {
     this.setState({
@@ -213,6 +215,10 @@ shuffledCards (cardSet) {
       </div>
     );
   }
+}
+
+CardGridContainer.propTypes = {
+  cardSet: PropTypes.array.isRequired
 }
 
 export default CardGridContainer;
