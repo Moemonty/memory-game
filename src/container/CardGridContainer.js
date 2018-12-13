@@ -6,10 +6,7 @@ import loteriaCard from '../images/loteriaCard.jpg';
 
 class CardGridContainer extends Component {
   constructor(props) {
-
     const { cardSet } = props;
-
-    console.log('constructed grid container');
     super(props);
 
     this.state = {

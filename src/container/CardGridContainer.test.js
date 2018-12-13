@@ -58,7 +58,7 @@ describe('CardGridContainer', () => {
       // http://enthudrives.com/blog/how-to-test-react-state/
       // console.log(wrapper.debug());
 
-      const cardBoot = wrapper.find('[data-name="Boot"]').forEach((node, index) => {
+      const cardBoot = wrapper.find('[data-name="The Sun"]').forEach((node, index) => {
         // NO MATCH
         // if(index === 0 ){
         //   node.simulate('click');
